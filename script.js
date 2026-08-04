@@ -98,13 +98,25 @@ function calculateGadai(event) {
   const jatuhTempo = new Date(transaksiDate);
   jatuhTempo.setDate(jatuhTempo.getDate() + 31);   
 
-  // Batas lewat jatuh tempo (15 hari setelah jatuh tempo) 
-  // const batasLewatTempo = new Date(jatuhTempo);
-  // batasLewatTempo.setDate(batasLewatTempo.getDate() + 15);
-
   // Skenario pembayaran
   const diskonTebusCepat = Math.ceil((pinjaman - (tarif * 0.5)) / 1000) * 1000;
-  const perpanjangNormal = Math.ceil((pinjaman * 0.11) / 1000) * 1000;
+  // const perpanjangNormal = Math.ceil((pinjaman * 0.11) / 1000) * 1000;
+  // const perpanjangNormal = Math.max(
+  // 5000,
+  // Math.ceil((pinjaman * 0.11) / 1000) * 1000
+  // );
+  const tarifPerpanjang = pinjaman * 0.10;
+
+  const adminPerpanjang = Math.max(
+    5000,
+    Math.ceil((pinjaman * 0.01) / 1000) * 1000
+  );
+
+  const perpanjangNormal = Math.ceil(
+    (tarifPerpanjang + adminPerpanjang) / 1000
+  ) * 1000;
+
+
   const perpanjangLewat = Math.ceil((pinjaman * 0.16) / 1000) * 1000;
   
   const tebuLewat = pinjaman + pinjaman * 0.05 + tarif * 0.5;
