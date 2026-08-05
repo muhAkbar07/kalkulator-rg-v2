@@ -169,7 +169,7 @@ function calculateGadai(event) {
         <p>Perpanjangan lewat dari jatuh tempo 1 sampai 15 hari, denda flat 5% </p>
         <p><small style="color: #eb2525; font-weight: 600;">Batas: ${formatDate(
           new Date(transaksiDate.getTime() + 46 * 86400000).toISOString().split('T')[0]
-        )} (Maxsimal Perlanjangan)</small>
+        )} (Maxsimal Perpanjangan)</small>
         </p>
       </div>
       <div class="nominal">${formatRupiah(perpanjangLewat)}</div>
