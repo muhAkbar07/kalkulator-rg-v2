@@ -45,8 +45,13 @@ function getAdminFee(kategori, pinjaman) {
     case 'tv-kecil':
       return 25000;
 
+    // case 'tv-besar':
+    //   return Math.ceil((pinjaman * 0.05) / 1000) * 1000;
     case 'tv-besar':
-      return Math.ceil((pinjaman * 0.05) / 1000) * 1000;
+    return Math.max(
+      25000,
+      Math.ceil((pinjaman * 0.05) / 1000) * 1000
+    );
 
     default:
       return 10000;
@@ -104,20 +109,14 @@ function calculateGadai(event) {
     Math.ceil((pinjaman * 0.01) / 1000) * 1000
   );
 
-  const perpanjangNormal = Math.ceil(
-    (tarifPerpanjang + adminPerpanjang) / 1000
-  ) * 1000;
+    const perpanjangNormal = Math.ceil(
+      (tarifPerpanjang + adminPerpanjang) / 1000
+    ) * 1000;
 
-
-  // const perpanjangLewat = Math.ceil((pinjaman * 0.16) / 1000) * 1000;
-  // const adminPerpanjang =
-  // pinjaman < 500000
-  //   ? 5000
-  //   : Math.ceil((pinjaman * 0.01) / 1000) * 1000;
 
   const perpanjangLewat = Math.ceil(
-    (pinjaman * 0.15 + adminPerpanjang) / 1000
-  ) * 1000;
+    (pinjaman * 0.16 )
+  );
   
   const tebuLewat = pinjaman + pinjaman * 0.05 + tarif * 0.5;
   const nominalPengganti = pinjaman + pinjaman * 0.1;
