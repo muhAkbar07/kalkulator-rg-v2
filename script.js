@@ -87,7 +87,11 @@ function calculateGadai(event) {
   }
 
   // Perhitungan biaya
-  const tarif = pinjaman * 0.1;
+  // const tarif = pinjaman * 0.1;
+  let tarif = pinjaman * 0.10;
+
+  // Bulatkan ke atas ke kelipatan Rp1.000
+  tarif = Math.ceil(tarif / 1000) * 1000;
   const admin = getAdminFee(kategori, pinjaman);
   const asuransi = 10000;
   const totalPotongan = tarif + admin + asuransi;
