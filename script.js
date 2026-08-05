@@ -30,16 +30,9 @@ function getAdminFee(kategori, pinjaman) {
         if (pinjaman <= 1000000) return 10000;
 
   return Math.min(Math.ceil(pinjaman / 1000000) * 10000, 100000);
-
-    // case 'laptop':
-    //   return Math.ceil((pinjaman * 0.02) / 1000) * 1000;
-
-    // case 'proyektor':
-    //   return Math.ceil((pinjaman * 0.03) / 1000) * 1000;
-
     case 'laptop':
       return Math.max(
-        5000,
+        10000,
         Math.ceil((pinjaman * 0.02) / 1000) * 1000
       );
 
@@ -77,7 +70,11 @@ function calculateGadai(event) {
 
   const kategori = document.querySelector('input[name="kategori"]:checked').value;
   const tanggal = document.getElementById('tanggal').value;
-  const pinjaman = Number(document.getElementById('pinjaman').value || 0);
+  // const pinjaman = Number(document.getElementById('pinjaman').value || 0);
+
+  const pinjaman = Number(
+  document.getElementById("pinjaman").value.replace(/\./g, "") || 0
+  );
 
   if (!tanggal || pinjaman < 100000) {
     alert('Mohon isi semua field dengan benar');
@@ -100,11 +97,6 @@ function calculateGadai(event) {
 
   // Skenario pembayaran
   const diskonTebusCepat = Math.ceil((pinjaman - (tarif * 0.5)) / 1000) * 1000;
-  // const perpanjangNormal = Math.ceil((pinjaman * 0.11) / 1000) * 1000;
-  // const perpanjangNormal = Math.max(
-  // 5000,
-  // Math.ceil((pinjaman * 0.11) / 1000) * 1000
-  // );
   const tarifPerpanjang = pinjaman * 0.10;
 
   const adminPerpanjang = Math.max(
@@ -207,6 +199,15 @@ function calculateGadai(event) {
 
 // Event listeners
 form.addEventListener('submit', calculateGadai);
+
+// Format input pinjaman saat diketik
+const pinjamanInput = document.getElementById("pinjaman");
+
+pinjamanInput.addEventListener("input", function () {
+  let angka = this.value.replace(/\D/g, "");
+
+  this.value = angka.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+});
 
 // Tab navigation
 document.querySelectorAll('.tab-btn').forEach((btn) => {
