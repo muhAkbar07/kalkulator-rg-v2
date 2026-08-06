@@ -42,7 +42,7 @@ function getAdminFee(kategori, pinjaman) {
         Math.ceil((pinjaman * 0.03) / 1000) * 1000
       );
 
-      
+
 
     case 'tv-kecil':
       return 25000;
@@ -120,11 +120,6 @@ function calculateGadai(event) {
     ) * 1000;
 
   const tarifLewat = pinjaman * 0.15;
-
-  // const adminPerpanjang =
-  //   pinjaman < 500000    
-  //     ? 5000
-  //     : pinjaman * 0.01; 
 
   const perpanjangLewat = Math.ceil(
     (tarifLewat + adminPerpanjang) / 1000
