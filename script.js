@@ -38,7 +38,7 @@ function getAdminFee(kategori, pinjaman) {
 
     case 'proyektor':
       return Math.max(
-        5000,
+        10000,
         Math.ceil((pinjaman * 0.03) / 1000) * 1000
       );
 
