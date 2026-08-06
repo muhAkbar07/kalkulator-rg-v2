@@ -248,12 +248,6 @@ document.getElementById('pinjaman').addEventListener('change', (e) => {
     : '';
 });
 
-// Set default date
-// const today = new Date().toISOString().split('T')[0];
-// document.getElementById('tanggal').value = today;
-
-
-
 function updateTanggal() {
   const now = new Date();
 
