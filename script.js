@@ -42,6 +42,8 @@ function getAdminFee(kategori, pinjaman) {
         Math.ceil((pinjaman * 0.03) / 1000) * 1000
       );
 
+      
+
     case 'tv-kecil':
       return 25000;
 
