@@ -42,9 +42,13 @@ function getAdminFee(kategori, pinjaman) {
         Math.ceil((pinjaman * 0.03) / 1000) * 1000
       );
 
+
+
     case 'tv-kecil':
       return 25000;
 
+    // case 'tv-besar':
+    //   return Math.ceil((pinjaman * 0.05) / 1000) * 1000;
     case 'tv-besar':
     return Math.max(
       25000,
@@ -59,7 +63,7 @@ function getAdminFee(kategori, pinjaman) {
 // Nama kategori
 function getNamaKategori(kategori) {
   const names = {
-    laptop: 'Handphone, Laptop, Iphone ',
+    laptop: 'Handphone, Laptop, Iphone, ',
     proyektor: 'Proyektor, Video Game, iPad, Macbook, SmartWatch, Tablet, Kamera',
     'tv-kecil': 'LED TV < 550rb',
     'tv-besar': 'LED TV > 550rb',
@@ -67,18 +71,17 @@ function getNamaKategori(kategori) {
   return names[kategori] || kategori;
 }
 
-
 // Hitung gadai
 function calculateGadai(event) {
   event.preventDefault();
 
   const kategori = document.querySelector('input[name="kategori"]:checked').value;
-  const tanggal = document.getElementById('tanggal').value; 
+  const tanggal = document.getElementById('tanggal').value;
+  // const pinjaman = Number(document.getElementById('pinjaman').value || 0);
 
   const pinjaman = Number(
   document.getElementById("pinjaman").value.replace(/\./g, "") || 0
-);
-  
+  );
 
   if (!tanggal || pinjaman < 100000) {
     alert('Mohon isi semua field dengan benar');
@@ -103,32 +106,27 @@ function calculateGadai(event) {
   const jatuhTempo = new Date(transaksiDate);
   jatuhTempo.setDate(jatuhTempo.getDate() + 31);   
 
-
   // Skenario pembayaran
   const diskonTebusCepat = Math.ceil((pinjaman - (tarif * 0.5)) / 1000) * 1000;
+  const tarifPerpanjang = pinjaman * 0.10;
 
-  // Admin perpanjangan
-  const adminPerpanjang =
-  pinjaman < 500000
-    ? 5000
-    : Math.ceil((pinjaman * 0.01) / 1000) * 1000;
+  const adminPerpanjang = Math.max(
+    5000,
+    Math.ceil((pinjaman * 0.01) / 1000) * 1000
+  );
 
-  // Perpanjangan
-  const perpanjangNormal = Math.ceil(
-    (pinjaman * 0.10 + adminPerpanjang) / 1000
-  ) * 1000;
+    const perpanjangNormal = Math.ceil(
+      (tarifPerpanjang + adminPerpanjang) / 1000
+    ) * 1000;
+
+  const tarifLewat = pinjaman * 0.15;
 
   const perpanjangLewat = Math.ceil(
-    (pinjaman * 0.15 + adminPerpanjang) / 1000
-  ) * 1000; 
-
-    const tebuLewat = Math.ceil(
-    (pinjaman + pinjaman * 0.05 + tarif * 0.5) / 1000
+    (tarifLewat + adminPerpanjang) / 1000
   ) * 1000;
-
-  const nominalPengganti = Math.ceil(
-    (pinjaman + pinjaman * 0.1) / 1000
-  ) * 1000;
+  
+  const tebuLewat = pinjaman + pinjaman * 0.05 + tarif * 0.5;
+  const nominalPengganti = pinjaman + pinjaman * 0.1;
 
   // Update tampilan
   document.getElementById('nominal-pinjaman').textContent = formatRupiah(pinjaman);
@@ -142,67 +140,65 @@ function calculateGadai(event) {
   document.getElementById('biaya-admin').textContent = formatRupiah(admin);
   document.getElementById('biaya-asuransi').textContent = formatRupiah(asuransi);
   document.getElementById('total-potongan').textContent = formatRupiah(totalPotongan);
-  document.getElementById('uang-terima').textContent = formatRupiah(uangTerima);
 
-  // Generate scenario cards — dibuat lebih mudah dibaca saat CS menjelaskan ke nasabah
+  // Generate scenario cards
   const scenarioHTML = `
+    <div class="scenario-card terima">
+      <div>
+        <h4>↓ Uang Terima Bersih</h4>
+        <p>Pinjaman - Tarif - Admin - Asuransi</p>
+      </div>
+      <div class="nominal">${formatRupiah(uangTerima)}</div>
+    </div>
+
     <div class="scenario-card diskon">
-      <div class="recommended">⭐ Pilihan Menguntungkan</div>
-      <div class="scenario-left">
-        <h4>⚡ Tebus Cepat</h4>
-        <p>Tebus Maksimal 3 hari dari Tanggal Transaksi dengan Diskon 50% Tarif Sewa.</p>
-        <div class="scenario-date">Batas: ${formatDate(new Date(transaksiDate.getTime() + 4 * 86400000).toISOString().split('T')[0])}</div>
+      <div>
+        <h4>⚡ Diskon Tebus Cepat</h4>
+        <p>Promo Tebus Cepat 0-3 hari setelah transaksi diskon 50%<br><small style="color: #2563eb; font-weight: 600;">Batas: ${formatDate(
+          new Date(transaksiDate.getTime() + 4 * 86400000).toISOString().split('T')[0]
+        )} (3 hari setelah transaksi)</small></p>
       </div>
-      <div class="scenario-right">
-        <span class="label">Total Tebus cepat</span>
-        <div class="nominal">${formatRupiah(diskonTebusCepat)}</div>
-      </div>
+      <div class="nominal">${formatRupiah(diskonTebusCepat)}</div>
     </div>
 
     <div class="scenario-card perpanjang">
-      <div class="scenario-left">
+      <div>
         <h4>📅 Perpanjangan Normal</h4>
-        <p>Perpanjang masa pinjaman sampai 30 hari.</p>
+        <p>Perpanjangan untuk menambah waktu jatuh tempo 30 hari </p>
       </div>
-      <div class="scenario-right">
-        <span class="label">Biaya Perpanjangan</span>
-        <div class="nominal">${formatRupiah(perpanjangNormal)}</div>
-      </div>
+      <div class="nominal">${formatRupiah(perpanjangNormal)}</div>
     </div>
 
     <div class="scenario-card lewat">
-      <div class="scenario-left">
-        <h4>⚠️ Perpanjang Setelah Jatuh Tempo</h4>
-        <p>Perpanjangan 1–15 hari setelah jatuh tempo dengan denda flat 5%.</p>
-        <div class="scenario-date">Batas: ${formatDate(new Date(transaksiDate.getTime() + 46 * 86400000).toISOString().split('T')[0])}</div>
+      <div>
+        <h4>⚠️ Perpanjangan Lewat Jatuh Tempo</h4>
+        <p>Perpanjangan lewat dari jatuh tempo 1 sampai 15 hari, denda flat 5% </p>
+        <p><small style="color: #eb2525; font-weight: 600;">Batas: ${formatDate(
+          new Date(transaksiDate.getTime() + 46 * 86400000).toISOString().split('T')[0]
+        )} (Maxsimal Perpanjangan)</small>
+        </p>
       </div>
-      <div class="scenario-right">
-        <span class="label">Biaya Perpanjangan</span>
-        <div class="nominal">${formatRupiah(perpanjangLewat)}</div>
-      </div>
+      <div class="nominal">${formatRupiah(perpanjangLewat)}</div>
     </div>
 
     <div class="scenario-card lewat">
-      <div class="scenario-left">
-        <h4>⚠️ Tebus Setelah Jatuh Tempo</h4>
-        <p>Pelunasan 2–15 hari setelah jatuh tempo dengan denda flat 5%.</p>
-        <div class="scenario-date">Batas: ${formatDate(new Date(transaksiDate.getTime() + 46 * 86400000).toISOString().split('T')[0])}</div>
+      <div>
+        <h4>⊘ Tebus Lewat Jatuh Tempo</h4>
+        <p>Pelunasan lewat dari jatuh tempo 2 sampai 15 hari, denda flat 5%</p>
+        <p>Biaya bulan selanjutnya 5%<br><small style="color: #eb2525; font-weight: 600;">Batas: ${formatDate(
+          new Date(transaksiDate.getTime() + 46 * 86400000).toISOString().split('T')[0]
+        )} (Maxsimal Pelunasan)</small>
+        </p>
       </div>
-      <div class="scenario-right">
-        <span class="label">Total Tebus</span>
-        <div class="nominal">${formatRupiah(tebuLewat)}</div>
-      </div>
+      <div class="nominal">${formatRupiah(tebuLewat)}</div>
     </div>
 
     <div class="scenario-card pengganti">
-      <div class="scenario-left">
-        <h4>🏷️ Asuransi</h4>
-        <p>Nominal Asuransi sebesar pinjaman + 10%.</p>
-      </div>  
-      <div class="scenario-right">
-        <span class="label">Nominal Asuransi</span>
-        <div class="nominal">${formatRupiah(nominalPengganti)}</div>
+      <div>
+        <h4>🏷️ Nominal Pengganti</h4>
+        <p>Pinjaman + 10%</p>
       </div>
+      <div class="nominal">${formatRupiah(nominalPengganti)}</div>
     </div>
   `;
 
@@ -218,7 +214,7 @@ function calculateGadai(event) {
 // Event listeners
 form.addEventListener('submit', calculateGadai);
 
- // Format input pinjaman saat diketik
+// Format input pinjaman saat diketik
 const pinjamanInput = document.getElementById("pinjaman");
 
 pinjamanInput.addEventListener("input", function () {
@@ -247,10 +243,9 @@ document.querySelectorAll('.tab-btn').forEach((btn) => {
 // Update input text saat number berubah
 document.getElementById('pinjaman').addEventListener('change', (e) => {
   const value = e.target.value;
-  const pinjamanText = document.getElementById('pinjaman-text');
-  if (pinjamanText) {
-    pinjamanText.value = value ? formatRupiah(Number(value)).replace('Rp', '').trim() : '';
-  }
+  document.getElementById('pinjaman-text').value = value
+    ? formatRupiah(Number(value)).replace('Rp', '').trim()
+    : '';
 });
 
 function updateTanggal() {
@@ -287,28 +282,3 @@ function jadwalkanUpdateTengahMalam() {
 }
 
 jadwalkanUpdateTengahMalam();
-
-
-const tbody = document.getElementById("tabel-pinjaman");
-
-for (let pinjaman = 500000; pinjaman <= 10000000; pinjaman += 100000) {
-  const tarif = pinjaman * 0.10;
-
-  let admin;
-  if (pinjaman <= 1000000) {
-    admin = 10000;
-  } else {
-    admin = Math.ceil(pinjaman / 1000000) * 10000;
-  }
-
-  const asuransi = 10000;
-  const bersih = pinjaman - tarif - admin - asuransi;
-
-  tbody.innerHTML += `
-    <tr>
-      <td>${formatRupiah(pinjaman)}</td>
-      <td>${formatRupiah(bersih)}</td>
-    </tr>
-  `;
-}
-
