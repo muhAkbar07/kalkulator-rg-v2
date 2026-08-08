@@ -185,7 +185,7 @@ function calculateGadai(event) {
     <div class="scenario-card lewat">
       <div class="scenario-left">
         <h4>⚠️ Tebus Setelah Jatuh Tempo</h4>
-        <p>Pelunasan 2–15 hari setelah jatuh tempo dengan denda flat 5%.</p>
+        <p>Pelunasan 2–15 hari setelah jatuh tempo dengan denda flat 5% + Biaya dibulan berikutnya 5%.</p>
         <div class="scenario-date">Batas: ${formatDate(new Date(transaksiDate.getTime() + 46 * 86400000).toISOString().split('T')[0])}</div>
       </div>
       <div class="scenario-right">
