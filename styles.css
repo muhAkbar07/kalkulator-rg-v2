@@ -43,6 +43,275 @@ button, input { font: inherit; }
   background: #eaf2ff; color: var(--primary); font-weight: 800; font-size: 13px;
 } */
 
+/* =========================
+   PROMO PAGE
+========================= */
+
+.promo-page {
+  padding: 4px 0;
+}
+
+.promo-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px;
+  margin-bottom: 18px;
+  background: #f8fafc;
+  border: 1px solid var(--gray-200);
+  border-radius: 12px;
+}
+
+.promo-icon,
+.perjanjian-icon {
+  width: 46px;
+  height: 46px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #eaf2ff;
+  border-radius: 12px;
+  font-size: 23px;
+}
+
+.promo-header h3,
+.perjanjian-header h3 {
+  margin: 0 0 4px;
+  font-size: 17px;
+}
+
+.promo-header p,
+.perjanjian-header p {
+  margin: 0;
+  color: var(--gray-600);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.promo-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.promo-card {
+  padding: 18px;
+  border-radius: 12px;
+  border: 1px solid var(--gray-200);
+  background: white;
+  transition: all 0.2s;
+}
+
+.promo-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.promo-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.promo-emoji {
+  font-size: 25px;
+}
+
+.promo-badge {
+  padding: 5px 9px;
+  border-radius: 20px;
+  background: var(--gray-100);
+  color: var(--gray-600);
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.promo-card h4 {
+  margin: 0 0 8px;
+  font-size: 15px;
+}
+
+.promo-highlight {
+  margin-bottom: 10px;
+  color: var(--primary);
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.promo-highlight strong {
+  font-size: 24px;
+}
+
+.promo-card p {
+  margin: 0;
+  color: var(--gray-600);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.promo-fast {
+  border-left: 4px solid var(--success);
+}
+
+.promo-free {
+  border-left: 4px solid var(--info);
+}
+
+.promo-late {
+  border-left: 4px solid var(--warning);
+}
+
+.promo-member {
+  border-left: 4px solid #8b5cf6;
+}
+
+.promo-note,
+.perjanjian-note {
+  display: flex;
+  gap: 12px;
+  margin-top: 18px;
+  padding: 15px;
+  border-radius: 10px;
+  background: rgba(59, 130, 246, 0.06);
+  border: 1px solid rgba(59, 130, 246, 0.15);
+}
+
+.promo-note > span,
+.perjanjian-note > span {
+  font-size: 20px;
+}
+
+.promo-note strong,
+.perjanjian-note strong {
+  display: block;
+  margin-bottom: 3px;
+  font-size: 13px;
+}
+
+.promo-note p,
+.perjanjian-note p {
+  margin: 0;
+  color: var(--gray-600);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+
+/* =========================
+   PERJANJIAN
+========================= */
+
+.perjanjian-info {
+  padding: 4px 0;
+}
+
+.perjanjian-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px;
+  margin-bottom: 16px;
+  background: #f8fafc;
+  border: 1px solid var(--gray-200);
+  border-radius: 12px;
+}
+
+.perjanjian-document {
+  max-height: 650px;
+  overflow-y: auto;
+  padding: 24px;
+  background: white;
+  border: 1px solid var(--gray-200);
+  border-radius: 12px;
+}
+
+.perjanjian-document h2 {
+  margin: 0 0 20px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.perjanjian-document > p {
+  margin: 0 0 18px;
+  color: var(--gray-700);
+  font-size: 12px;
+  line-height: 1.65;
+  text-align: justify;
+}
+
+.perjanjian-document ol {
+  margin: 0;
+  padding-left: 25px;
+}
+
+.perjanjian-document li {
+  padding-left: 7px;
+  margin-bottom: 14px;
+  color: var(--gray-700);
+  font-size: 12px;
+  line-height: 1.65;
+  text-align: justify;
+}
+
+.perjanjian-document li strong {
+  color: var(--gray-900);
+}
+
+
+/* POINT 2, 4, 5, 10 */
+
+.perjanjian-document li.point-highlight {
+  margin-left: -8px;
+  padding: 14px;
+  border: 2px solid var(--primary);
+  border-radius: 12px;
+  background: rgba(0, 102, 255, 0.04);
+}
+
+.perjanjian-document li.point-highlight::marker {
+  color: var(--primary);
+  font-weight: 800;
+}
+
+.perjanjian-closing {
+  margin-top: 20px;
+  padding: 18px;
+  border-top: 1px solid var(--gray-200);
+  text-align: center;
+  color: var(--gray-700);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+
+  .promo-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .promo-card {
+    padding: 16px;
+  }
+
+  .perjanjian-document {
+    max-height: 600px;
+    padding: 16px;
+  }
+
+  .perjanjian-document li,
+  .perjanjian-document > p {
+    font-size: 11px;
+    line-height: 1.6;
+  }
+
+}
+
 
 .brand-mark {
   width: 42px;
