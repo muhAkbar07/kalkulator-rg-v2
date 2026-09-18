@@ -332,6 +332,221 @@ button, input { font: inherit; }
   object-fit: contain;
   border-radius: 10px;
 }
+
+/* =========================
+   ACTION BUTTONS
+========================= */
+
+.action-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.btn-action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  width: 100%;
+  padding: 13px 16px;
+
+  border: none;
+  border-radius: 8px;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-action:hover {
+  transform: translateY(-1px);
+}
+
+.btn-whatsapp {
+  background: #10b981;
+  color: white;
+}
+
+.btn-whatsapp:hover {
+  background: #059669;
+}
+
+.btn-print {
+  background: var(--primary);
+  color: white;
+}
+
+.btn-print:hover {
+  background: #0052cc;
+}
+
+
+/* =========================
+   PRINT
+========================= */
+
+@media print {
+
+  body {
+    background: white;
+    padding: 0;
+  }
+
+  .container {
+    max-width: 100%;
+  }
+
+  .card {
+    box-shadow: none;
+    border-radius: 0;
+  }
+
+  .header-card {
+    border-bottom: 1px solid #ddd;
+  }
+
+  .action-buttons,
+  .tab-navigation,
+  .tabs,
+  .footer-note {
+    display: none !important;
+  }
+
+  .result-section {
+    display: block !important;
+  }
+
+  .scenario-card {
+    break-inside: avoid;
+  }
+
+  .cost-details {
+    display: block;
+  }
+
+  .cost-details > summary {
+    display: none;
+  }
+}
+
+
+@media (max-width: 600px) {
+
+  .action-buttons {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+
+// button styles
+.copy-toast {
+    position: fixed !important;
+    
+    top: 50% !important;
+    right: 50% !important;
+    
+    width: max-content;
+    min-width: 320px;
+    max-width: 90%;
+    
+    transform: translate(-50%, -50%) !important;
+
+    display: flex;
+    align-items: center;
+    gap: 14px;
+
+    padding: 18px 22px;
+
+    background: #ffffff;
+    border-radius: 16px;
+
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.20);
+
+    opacity: 0;
+    visibility: hidden;
+
+    transition:
+        opacity 0.3s ease,
+        visibility 0.3s ease;
+
+    z-index: 999999;
+}
+
+/* Saat muncul */
+.copy-toast.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, -50%) !important;
+}
+
+
+/* ICON */
+.toast-icon {
+    width: 42px;
+    height: 42px;
+
+    flex: 0 0 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #e8f7ee;
+    color: #16a34a;
+
+    font-size: 22px;
+    font-weight: 700;
+}
+
+
+/* CONTENT */
+.toast-content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    text-align: left;
+}
+
+
+/* JUDUL */
+.toast-content strong {
+    margin: 0;
+
+    font-size: 15px;
+    line-height: 1.4;
+
+    color: #222;
+}
+
+
+/* DESKRIPSI */
+.toast-content span {
+    margin: 0;
+
+    font-size: 13px;
+    line-height: 1.4;
+
+    color: #777;
+}
+
+
+/* ERROR */
+.copy-toast.error .toast-icon {
+    background: #feecec;
+    color: #dc2626;
+}
+
+
+
 .header-card h1 { margin: 0; font-size: 27px; font-weight: 800; }
 .highlight { color: var(--primary); }
 .header-card p { margin: 7px 0 0; color: var(--gray-600); font-size: 13px; }

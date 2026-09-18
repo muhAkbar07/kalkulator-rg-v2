@@ -27,29 +27,29 @@ function getAdminFee(kategori, pinjaman) {
   switch (kategori) {
 
     case 'hp':
-        if (pinjaman <= 1000000) return 10000;
+      if (pinjaman <= 1000000) return 10000;
 
-  return Math.min(Math.ceil(pinjaman / 1000000) * 10000, 100000);
+      return Math.ceil(pinjaman / 1000000) * 10000;
+
     case 'laptop':
-      return Math.max(
-        10000,
-        Math.ceil((pinjaman * 0.02) / 1000) * 1000
-      );
+      return pinjaman < 500000
+        ? 10000
+        : Math.ceil((pinjaman * 0.02) / 1000) * 1000;
 
     case 'proyektor':
-      return Math.max(
-        10000,
-        Math.ceil((pinjaman * 0.03) / 1000) * 1000
-      );
+      return pinjaman < 500000
+        ? 10000
+        : Math.ceil((pinjaman * 0.03) / 1000) * 1000;
 
     case 'tv-kecil':
       return 25000;
 
     case 'tv-besar':
-    return Math.max(
-      25000,
-      Math.ceil((pinjaman * 0.05) / 1000) * 1000
-    );
+      return Math.ceil((pinjaman * 0.05) / 1000) * 1000;
+
+    case 'kendaraan':
+      return Math.ceil((pinjaman * 0.05) / 1000) * 1000;
+
 
     default:
       return 10000;
@@ -59,26 +59,27 @@ function getAdminFee(kategori, pinjaman) {
 // Nama kategori
 function getNamaKategori(kategori) {
   const names = {
-    laptop: 'Handphone, Laptop, Iphone ',
-    proyektor: 'Proyektor, Video Game, iPad, Macbook, SmartWatch, Tablet, Kamera',
+    hp: 'HP, Laptop, Iphone',
+    laptop: 'Laptop Gaming, iPad, Macbook, Tablet',
+    proyektor: 'Kamera, Proyektor, Video Game, Smart Watch',
     'tv-kecil': 'LED TV < 550rb',
     'tv-besar': 'LED TV > 550rb',
+    kendaraan: 'Kendaraan Motor & Mobil',
   };
   return names[kategori] || kategori;
 }
-
 
 // Hitung gadai
 function calculateGadai(event) {
   event.preventDefault();
 
   const kategori = document.querySelector('input[name="kategori"]:checked').value;
-  const tanggal = document.getElementById('tanggal').value; 
+  const tanggal = document.getElementById('tanggal').value;
 
   const pinjaman = Number(
-  document.getElementById("pinjaman").value.replace(/\./g, "") || 0
-);
-  
+    document.getElementById("pinjaman").value.replace(/\./g, "") || 0
+  );
+
 
   if (!tanggal || pinjaman < 100000) {
     alert('Mohon isi semua field dengan benar');
@@ -86,7 +87,6 @@ function calculateGadai(event) {
   }
 
   // Perhitungan biaya
-  // const tarif = pinjaman * 0.1;
   let tarif = pinjaman * 0.10;
 
   // Bulatkan ke atas ke kelipatan Rp1.000
@@ -101,17 +101,16 @@ function calculateGadai(event) {
   // Tanggal jatuh tempo
   const transaksiDate = new Date(tanggal + 'T00:00:00');
   const jatuhTempo = new Date(transaksiDate);
-  jatuhTempo.setDate(jatuhTempo.getDate() + 31);   
-
+  jatuhTempo.setDate(jatuhTempo.getDate() + 31);
 
   // Skenario pembayaran
   const diskonTebusCepat = Math.ceil((pinjaman - (tarif * 0.5)) / 1000) * 1000;
 
   // Admin perpanjangan
   const adminPerpanjang =
-  pinjaman < 500000
-    ? 5000
-    : Math.ceil((pinjaman * 0.01) / 1000) * 1000;
+    pinjaman < 500000
+      ? 5000
+      : Math.ceil((pinjaman * 0.01) / 1000) * 1000;
 
   // Perpanjangan
   const perpanjangNormal = Math.ceil(
@@ -120,9 +119,9 @@ function calculateGadai(event) {
 
   const perpanjangLewat = Math.ceil(
     (pinjaman * 0.15 + adminPerpanjang) / 1000
-  ) * 1000; 
+  ) * 1000;
 
-    const tebuLewat = Math.ceil(
+  const tebuLewat = Math.ceil(
     (pinjaman + pinjaman * 0.05 + tarif * 0.5) / 1000
   ) * 1000;
 
@@ -185,7 +184,7 @@ function calculateGadai(event) {
     <div class="scenario-card lewat">
       <div class="scenario-left">
         <h4>⚠️ Tebus Setelah Jatuh Tempo</h4>
-        <p>Pelunasan 2–15 hari setelah jatuh tempo dengan denda flat 5% + Biaya dibulan berikutnya 5%.</p>
+        <p>Pelunasan 2–15 hari setelah jatuh tempo dengan denda flat 5% + Denda dibulan berikutnya 5%.</p>
         <div class="scenario-date">Batas: ${formatDate(new Date(transaksiDate.getTime() + 46 * 86400000).toISOString().split('T')[0])}</div>
       </div>
       <div class="scenario-right">
@@ -196,7 +195,7 @@ function calculateGadai(event) {
 
     <div class="scenario-card pengganti">
       <div class="scenario-left">
-        <h4>🏷️ Asuransi</h4>
+        <h4>🏷️ Nilai Asuransi</h4>
         <p>Nominal Asuransi sebesar pinjaman + 10%.</p>
       </div>  
       <div class="scenario-right">
@@ -218,7 +217,7 @@ function calculateGadai(event) {
 // Event listeners
 form.addEventListener('submit', calculateGadai);
 
- // Format input pinjaman saat diketik
+// Format input pinjaman saat diketik
 const pinjamanInput = document.getElementById("pinjaman");
 
 pinjamanInput.addEventListener("input", function () {
@@ -312,3 +311,77 @@ for (let pinjaman = 500000; pinjaman <= 10000000; pinjaman += 100000) {
   `;
 }
 
+function salinWhatsApp() {
+  const pesan = `*RAJA GADAI*
+
+*📋 Detail Perhitungan Transaksi Gadai *
+
+Nilai Pinjaman:
+Rp ${document.getElementById('pinjaman').value}
+
+Uang yang Diterima:
+Rp ${document.getElementById('uang-terima').textContent}
+
+Tanggal Transaksi:
+${document.getElementById('tgl-transaksi').textContent}
+
+Jatuh Tempo:
+${document.getElementById('tgl-jatuh-tempo').textContent}
+
+*Pilihan Pembayaran:*
+
+⚡ *Tebus Cepat*
+Rp ${document.querySelector('.scenario-card.diskon .nominal').textContent}
+
+📅 *Perpanjangan*
+Rp ${document.querySelector('.scenario-card.perpanjang .nominal').textContent}
+
+⚠️ *Perpanjangan Lewat Jatuh Tempo*
+Rp ${document.querySelector('.scenario-card.lewat .nominal').textContent} 
+
+⚠️ *Pelunasan Lewat Jatuh Tempo*
+Rp ${document.querySelector('.scenario-card.pengganti .nominal').textContent} 
+
+Terima kasih telah mempercayakan kebutuhan gadai Anda kepada *Raja Gadai*.
+Semoga informasi ini membantu. Kami siap memberikan pelayanan terbaik untuk Anda. 🙏.*.`;
+
+  navigator.clipboard.writeText(pesan)
+    .then(() => {
+      showToast("✓ Informasi berhasil disalin", "Silakan paste ke WhatsApp");
+    })
+    .catch(() => {
+      showToast("✕ Gagal menyalin informasi", "Silakan coba lagi", "error");
+    });
+}
+
+function showToast(title, message, type = "success") {
+  const toast = document.createElement("div");
+
+  toast.className = `copy-toast ${type}`;
+
+  toast.innerHTML = `
+        <div class="toast-icon">
+            ${type === "success" ? "✓" : "!"}
+        </div>
+
+        <div class="toast-content">
+            <strong>${title}</strong>
+            <span>${message}</span>
+        </div>
+    `;
+
+  // WAJIB langsung ke body
+  document.body.appendChild(toast);
+
+  requestAnimationFrame(() => {
+    toast.classList.add("show");
+  });
+
+  setTimeout(() => {
+    toast.classList.remove("show");
+
+    setTimeout(() => {
+      toast.remove();
+    }, 3000);
+  }, 2500);
+}
