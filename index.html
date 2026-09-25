@@ -66,7 +66,7 @@
               <label class="category-option">
                 <input type="radio" name="kategori" value="hp" checked />
                 <span class="icon">📱</span>
-                <span class="label-text">HP, Laptop, Iphone</span>
+                <span class="label-text">HP, Laptop, Iphone, LM</span>
                 <span class="desc">Admin berdasarkan tabel kelipatan pinjaman (min Rp10.000)</span>
               </label>
               <label class="category-option">
@@ -93,8 +93,8 @@
                 <span class="label-text">LED TV &gt; 550rb</span>
                 <span class="desc">Admin 5% dari jumlah pinjaman (dibulatkan ke ribu terdekat)</span>
               </label>
-              <label class="category-option"> 
-                <input type="radio" name="kategori" value="kendaraan" />  
+              <label class="category-option">
+                <input type="radio" name="kategori" value="kendaraan" />
                 <span class="icon">🚗</span>
                 <span class="label-text">KENDARAAN MOTOR & MOBIL</span>
                 <span class="desc">Admin 5% dari jumlah pinjaman</span>
@@ -135,7 +135,7 @@
       </div>
 
       <details class="cost-details">
-        <summary>🔎 Lihat Rincian Biaya Awal</summary>
+        <summary style="font-size: 20px; font-weight: 600; cursor: pointer; color: rgb(240, 65, 6);">🔎 Lihat Rincian Biaya Awal</summary>
         <div class="biaya-card compact">
           <div class="biaya-row"><span>Tarif Sewa 0–30 Hari (10%)</span><span id="biaya-tarif">Rp100.000</span></div>
           <div class="biaya-row"><span>Administrasi</span><span id="biaya-admin">Rp10.000</span></div>
@@ -151,11 +151,11 @@
       </div>
       <div class="scenario-cards" id="scenario-cards"></div>
       <div class="action-buttons">
-      <button type="button" class="btn-action btn-whatsapp" onclick="salinWhatsApp()">
-        <span>📱</span>
-        Kirim via WhatsApp
-      </button>
-    </div>
+        <button type="button" class="btn-action btn-whatsapp" onclick="salinWhatsApp()">
+          <span>📱</span>
+          Salin via WhatsApp
+        </button>
+      </div>
     </section>
     <!-- FOOTER -->
 

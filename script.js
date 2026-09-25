@@ -46,10 +46,9 @@ function getAdminFee(kategori, pinjaman) {
 
     case 'tv-besar':
       return Math.ceil((pinjaman * 0.05) / 1000) * 1000;
-
+    
     case 'kendaraan':
       return Math.ceil((pinjaman * 0.05) / 1000) * 1000;
-
 
     default:
       return 10000;
@@ -59,12 +58,12 @@ function getAdminFee(kategori, pinjaman) {
 // Nama kategori
 function getNamaKategori(kategori) {
   const names = {
-    hp: 'HP, Laptop, Iphone',
+    hp: 'HP, Laptop, Iphone, LM',
     laptop: 'Laptop Gaming, iPad, Macbook, Tablet',
     proyektor: 'Kamera, Proyektor, Video Game, Smart Watch',
     'tv-kecil': 'LED TV < 550rb',
     'tv-besar': 'LED TV > 550rb',
-    kendaraan: 'Kendaraan Motor & Mobil',
+    kendaraan: 'KENDARAAN MOTOR & MOBIL', 
   };
   return names[kategori] || kategori;
 }
@@ -312,54 +311,60 @@ for (let pinjaman = 500000; pinjaman <= 10000000; pinjaman += 100000) {
 }
 
 function salinWhatsApp() {
-  const pesan = `*RAJA GADAI*
+    const pesan = `*RAJA GADAI*
 
-*📋 Detail Perhitungan Transaksi Gadai *
+*📋 Halo Kak 👋
+Berikut kami sampaikan simulasi gadai sesuai nominal pinjaman yang Kakak butuhkan:*
 
 Nilai Pinjaman:
 Rp ${document.getElementById('pinjaman').value}
-
 Uang yang Diterima:
-Rp ${document.getElementById('uang-terima').textContent}
+${document.getElementById('uang-terima').textContent}
 
 Tanggal Transaksi:
-${document.getElementById('tgl-transaksi').textContent}
-
+${document.getElementById('tgl-transaksi').textContent}   
 Jatuh Tempo:
 ${document.getElementById('tgl-jatuh-tempo').textContent}
 
 *Pilihan Pembayaran:*
 
-⚡ *Tebus Cepat*
-Rp ${document.querySelector('.scenario-card.diskon .nominal').textContent}
+⚡ *Tebus Cepat 0-3 Hari*
+${document.querySelector('.scenario-card.diskon .nominal').textContent}
 
-📅 *Perpanjangan*
-Rp ${document.querySelector('.scenario-card.perpanjang .nominal').textContent}
+📅 *Perpanjangan + Cicil*
+   (Bisa cicil pokok pinjaman mulai Rp50.000)
+${document.querySelector('.scenario-card.perpanjang .nominal').textContent}
 
-⚠️ *Perpanjangan Lewat Jatuh Tempo*
-Rp ${document.querySelector('.scenario-card.lewat .nominal').textContent} 
+⚠️ *Perpanjangan Lewat Jatuh Tempo + Cicil*
+   (Bisa cicil pokok pinjaman mulai Rp50.000) 
+${document.querySelector('.scenario-card.lewat .nominal').textContent} 
 
 ⚠️ *Pelunasan Lewat Jatuh Tempo*
-Rp ${document.querySelector('.scenario-card.pengganti .nominal').textContent} 
+${document.querySelector('.scenario-card.pengganti .nominal').textContent} 
 
-Terima kasih telah mempercayakan kebutuhan gadai Anda kepada *Raja Gadai*.
-Semoga informasi ini membantu. Kami siap memberikan pelayanan terbaik untuk Anda. 🙏.*.`;
+Informasi di atas merupakan simulasi agar Kakak lebih mudah memahami perhitungan gadai di Raja Gadai.
 
-  navigator.clipboard.writeText(pesan)
-    .then(() => {
-      showToast("✓ Informasi berhasil disalin", "Silakan paste ke WhatsApp");
-    })
-    .catch(() => {
-      showToast("✕ Gagal menyalin informasi", "Silakan coba lagi", "error");
-    });
+Terima kasih telah mempercayakan kebutuhan gadai Anda kepada Raja Gadai. 👑
+Kami siap membantu memberikan pelayanan yang mudah, aman, dan nyaman. 🙏
+
+RAJA GADAI
+Solusi kebutuhan dana Anda ✨.`;
+
+      navigator.clipboard.writeText(pesan)  
+        .then(() => {
+            showToast("✓ Informasi berhasil disalin", "Silakan paste ke WhatsApp");
+        })
+        .catch(() => {
+            showToast("✕ Gagal menyalin informasi", "Silakan coba lagi", "error");
+        });
 }
 
 function showToast(title, message, type = "success") {
-  const toast = document.createElement("div");
+    const toast = document.createElement("div");
 
-  toast.className = `copy-toast ${type}`;
+    toast.className = `copy-toast ${type}`;
 
-  toast.innerHTML = `
+    toast.innerHTML = `
         <div class="toast-icon">
             ${type === "success" ? "✓" : "!"}
         </div>
@@ -370,18 +375,18 @@ function showToast(title, message, type = "success") {
         </div>
     `;
 
-  // WAJIB langsung ke body
-  document.body.appendChild(toast);
+    // WAJIB langsung ke body
+    document.body.appendChild(toast);
 
-  requestAnimationFrame(() => {
-    toast.classList.add("show");
-  });
-
-  setTimeout(() => {
-    toast.classList.remove("show");
+    requestAnimationFrame(() => {
+        toast.classList.add("show");
+    });
 
     setTimeout(() => {
-      toast.remove();
-    }, 3000);
-  }, 2500);
+        toast.classList.remove("show");
+
+        setTimeout(() => {
+            toast.remove();
+        }, 3000);
+    }, 2500);
 }
