@@ -286,28 +286,31 @@ function jadwalkanUpdateTengahMalam() {
 
 jadwalkanUpdateTengahMalam();
 
-
 const tbody = document.getElementById("tabel-pinjaman");
 
-for (let pinjaman = 500000; pinjaman <= 10000000; pinjaman += 100000) {
-  const tarif = pinjaman * 0.10;
+if (tbody) {
+  for (let pinjaman = 500000; pinjaman <= 10000000; pinjaman += 100000) {
 
-  let admin;
-  if (pinjaman <= 1000000) {
-    admin = 10000;
-  } else {
-    admin = Math.ceil(pinjaman / 1000000) * 10000;
+    const tarif = pinjaman * 0.10;
+
+    let admin;
+
+    if (pinjaman <= 1000000) {
+      admin = 10000;
+    } else {
+      admin = Math.ceil(pinjaman / 1000000) * 10000;
+    }
+
+    const asuransi = 10000;
+    const bersih = pinjaman - tarif - admin - asuransi;
+
+    tbody.innerHTML += `
+      <tr>
+        <td>${formatRupiah(pinjaman)}</td>
+        <td>${formatRupiah(bersih)}</td>
+      </tr>
+    `;
   }
-
-  const asuransi = 10000;
-  const bersih = pinjaman - tarif - admin - asuransi;
-
-  tbody.innerHTML += `
-    <tr>
-      <td>${formatRupiah(pinjaman)}</td>
-      <td>${formatRupiah(bersih)}</td>
-    </tr>
-  `;
 }
 
 function salinWhatsApp() {
@@ -322,7 +325,7 @@ Uang yang Diterima:
 ${document.getElementById('uang-terima').textContent}
 
 Tanggal Transaksi:
-${document.getElementById('tgl-transaksi').textContent}   
+${document.getElementById('tgl-transaksi').textContent}
 Jatuh Tempo:
 ${document.getElementById('tgl-jatuh-tempo').textContent}
 
@@ -332,11 +335,11 @@ ${document.getElementById('tgl-jatuh-tempo').textContent}
 ${document.querySelector('.scenario-card.diskon .nominal').textContent}
 
 📅 *Perpanjangan + Cicil*
-   (Bisa cicil pokok pinjaman mulai Rp50.000)
+(Bisa cicil pokok pinjaman mulai Rp50.000)
 ${document.querySelector('.scenario-card.perpanjang .nominal').textContent}
 
 ⚠️ *Perpanjangan Lewat Jatuh Tempo + Cicil*
-   (Bisa cicil pokok pinjaman mulai Rp50.000) 
+(Bisa cicil pokok pinjaman mulai Rp50.000)
 ${document.querySelector('.scenario-card.lewat .nominal').textContent} 
 
 ⚠️ *Pelunasan Lewat Jatuh Tempo*
@@ -389,4 +392,44 @@ function showToast(title, message, type = "success") {
             toast.remove();
         }, 3000);
     }, 2500);
+}
+
+// =========================================
+// DARK MODE
+// =========================================
+
+const themeToggle = document.getElementById("themeToggle");
+const themeIcon = document.getElementById("themeIcon");
+
+if (themeToggle && themeIcon) {
+
+  // Ambil tema yang terakhir digunakan
+  const savedTheme = localStorage.getItem("rg-theme");
+
+  if (savedTheme === "dark") {
+    document.body.classList.add("dark-mode");
+    themeIcon.textContent = "☀️";
+  } else {
+    document.body.classList.remove("dark-mode");
+    themeIcon.textContent = "🌙";
+  }
+
+  // Klik tombol
+  themeToggle.addEventListener("click", function () {
+
+    document.body.classList.toggle("dark-mode");
+
+    const isDark =
+      document.body.classList.contains("dark-mode");
+
+    if (isDark) {
+      themeIcon.textContent = "☀️";
+      localStorage.setItem("rg-theme", "dark");
+    } else {
+      themeIcon.textContent = "🌙";
+      localStorage.setItem("rg-theme", "light");
+    }
+
+  });
+
 }
